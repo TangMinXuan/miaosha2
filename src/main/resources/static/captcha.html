@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Title</title>
+    <!-- jquery -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+<body>
+<img id="verImg" width="130px" height="48px"/>
+
+<form id="captchaForm" method="post">
+    <input id="input" type="text">
+    <button id="button" type="submit" onclick="submit()">提交</button>
+</form>
+</body>
+
+<script>
+
+    // 获取验证码
+    $.get('miaosha/captcha', function(data) {
+        $('#verImg').attr('src', data.data);
+    },'json');
+
+    function submit() {
+        var input = $("#input").val();
+        $.ajax({
+            url: "miaosha/checkCaptcha",
+            type: "POST",
+            data: {
+                input: input,
+            },
+            success:function (data) {
+                if(data.code == 200) {
+                    console.log("1");
+                }
+            },
+            error: function () {
+                console.log("2");
+            }
+        });
+    }
+</script>
+</html>
